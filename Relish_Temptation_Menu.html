@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relish Temptation Menu</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3c2912;
+      --secondary: #f3c285;
+      --bg: #f7efe4;
+      --accent: #fff5e0;
+      --shadow: 0 2px 12px 0 rgba(60,41,18,0.07);
+      --radius: 1.5rem;
+      --font: 'Montserrat', Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: var(--font);
+      color: var(--primary);
+    }
+    .menu-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 2rem 1rem 1rem 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .menu-header img {
+      max-width: 110px;
+      max-height: 90px;
+      display: block;
+      margin: 0 auto 0.3rem auto;
+      border-radius: 1rem;
+      box-shadow: 0 2px 12px 0 rgba(60,41,18,0.14);
+      background: #fff;
+      padding: 6px;
+    }
+    .menu-header h1 {
+      margin: 0 0 0.5rem 0;
+      letter-spacing: 0.08em;
+      font-size: 2.4rem;
+      font-weight: 700;
+    }
+    .menu-header p {
+      margin: 0;
+      font-size: 1.1rem;
+      letter-spacing: 0.03em;
+    }
+    .menu-wrapper {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+    .menu-section {
+      background: var(--accent);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2rem;
+    }
+    .section-title {
+      background: var(--secondary);
+      color: var(--primary);
+      font-size: 1.4rem;
+      font-weight: 700;
+      padding: 1rem 1.5rem;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid #e6d1ae;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 0.8em;
+    }
+    .section-arrow {
+      transition: transform 0.2s;
+      font-size: 1.2em;
+      margin-right: 0.5em;
+      color: #a98242;
+    }
+    .menu-section .section-title .section-arrow {
+      transform: rotate(0deg);
+    }
+    .menu-section.active .section-title .section-arrow {
+      transform: rotate(90deg);
+    }
+    .menu-list {
+      padding: 1rem 1.5rem 1.5rem 1.5rem;
+      display: block;
+    }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed #e6d1ae;
+      font-size: 1.05rem;
+    }
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+    .item-name {
+      flex: 1 1 0;
+      font-weight: 500;
+    }
+    .item-price {
+      flex-shrink: 0;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      margin-left: 1.5rem;
+      color: var(--primary);
+    }
+	.item-price::before {
+	  content: "₹";
+	  margin-right: 1px;
+	}
+    /* Category color highlights */
+    .starters { background: #ffecc8; }
+    .soups { background: #ffe3c4; }
+    .rice { background: #fff4db; }
+    .pizza { background: #fae2cf; }
+    .noodles { background: #fde7b5; }
+    .maincourse { background: #ffecc8; }
+    .dessert { background: #fff4db; }
+    .beverages { background: #fae2cf; }
+    .tandoori { background: #ffe3c4; }
+    /* Responsive collapsible section on mobile */
+    @media (max-width: 700px) {
+      .menu-header h1 { font-size: 2rem; }
+      .menu-section { margin-bottom: 1.2rem; }
+      .menu-list { padding: 0.7rem 1rem 1.2rem 1rem; }
+      .section-title {
+        font-size: 1.1rem;
+        padding: 0.8rem 1rem;
+        border-radius: 0;
+        border-bottom: 2px solid #d3a262;
+      }
+      .menu-list {
+        display: none;
+      }
+      .menu-section.active .menu-list {
+        display: block;
+      }
+      .menu-section .section-title .section-arrow {
+        margin-left: 0;
+      }
+    }
+    @media (min-width: 701px) {
+      .menu-list { display: block !important; }
+      .section-title .section-arrow { display: none; }
+    }
+    .menu-footer {
+      text-align: center;
+      color: #9c7a4e;
+      font-size: 0.97rem;
+      padding: 2rem 1rem 1rem 1rem;
+    }
+	
+	.menu-heading {
+	  font-size: 1.5rem;
+	  font-weight: 700;
+	  color: #3c2912;
+	  letter-spacing: 0.08em;
+	  text-align: center;
+	  margin: 1.3rem 0 0.6rem 0;
+	  font-family: 'Montserrat', Arial, sans-serif;
+	  text-transform: uppercase;
+	  display: inline-block;
+	  background: #f3e0c7;      /* Soft warm bg */
+	  padding: 0.6em 2.2em;     /* Top-bottom, left-right padding */
+	  border-radius: 2.5em;
+	  box-shadow: 0 2px 8px 0 rgba(60,41,18,0.07);
+	}
+	.menu-heading-wrap {
+	  text-align: center;
+	  margin-bottom: 1.3rem;
+	}
+	
+	
+  </style>
+</head>
+<body>
+  <div class="menu-header">
+    <img src="Relish_Logo.jpg" alt="Relish Temptation Logo">
+    <p>Opp. UMC Office, Near Priya Apartment, Ulhasnagar - 421003</p>
+    <p>Call: 9323777770 / 0251 2566770</p>
+  </div>
+  <div class="menu-heading-wrap">
+    <div class="menu-heading">
+      Menu
+    </div>
+  </div>
+  
+  <div class="menu-wrapper">
+  
+<!-- FULL MENU STARTS HERE -->
+
+<section class="menu-section starters">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Starters (Veg.)</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Schezwan Bhel</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Gold Finger</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Veg. Manchurian / Veg. 65</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Veg. Crispy / Corn Crispy</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Cheese Ball</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Exotic Vegetables Stir Fry</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Popcorn</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Paneer / Mushroom Koliwada</span><span class="item-price">300</span></div>
+    <div class="menu-item"><span class="item-name">Vegetable Spring Roll</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Dragon Spring Roll</span><span class="item-price">310</span></div>
+    <div class="menu-item"><span class="item-name">Italian Cheese Roll</span><span class="item-price">330</span></div>
+    <div class="menu-item"><span class="item-name">Cheese Tukdi</span><span class="item-price">330</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Saté</span><span class="item-price">340</span></div>
+    <div class="menu-item"><span class="item-name">Mushroom Cheese Stuff Schezwan</span><span class="item-price">340</span></div>
+    <div class="menu-item"><span class="item-name">Spinach in Thai Sauce</span><span class="item-price">340</span></div>
+  </div>
+</section>
+<section class="menu-section starters">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Starters (Non-Veg.)</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Chicken Lollipop (4 pcs)</span><span class="item-price">140</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Lollipop</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Lollipop Toss in Schezwan (6 pcs)</span><span class="item-price">300</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Popcorn</span><span class="item-price">320</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Spicy Strips</span><span class="item-price">320</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Spring Roll</span><span class="item-price">320</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Hot Bhut Jolokia Sauce</span><span class="item-price">350</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Teriyaki Grilled Sticks</span><span class="item-price">390</span></div>
+    <div class="menu-item"><span class="item-name">Fish / Prawns Koliwada</span><span class="item-price">430 / 460</span></div>
+    <div class="menu-item"><span class="item-name">Fish Finger & Chips</span><span class="item-price">430</span></div>
+  </div>
+</section>
+<section class="menu-section soups">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Soups</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Veg Clear Soup</span><span class="item-price">130</span></div>
+    <div class="menu-item"><span class="item-name">Veg Manchow Soup</span><span class="item-price">130</span></div>
+    <div class="menu-item"><span class="item-name">Veg Sweet Corn Soup</span><span class="item-price">130</span></div>
+    <div class="menu-item"><span class="item-name">Hot & Sour Veg Soup</span><span class="item-price">130</span></div>
+    <div class="menu-item"><span class="item-name">Veg Tom Yum Soup</span><span class="item-price">150</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Clear Soup</span><span class="item-price">140</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Manchow Soup</span><span class="item-price">150</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Sweet Corn Soup</span><span class="item-price">150</span></div>
+    <div class="menu-item"><span class="item-name">Hot & Sour Chicken Soup</span><span class="item-price">150</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Tom Yum Soup</span><span class="item-price">180</span></div>
+  </div>
+</section>
+<section class="menu-section pizza">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Cheesy Pizza</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Vegetable Cheese Pizza</span><span class="item-price">180</span></div>
+    <div class="menu-item"><span class="item-name">Plain Cheese Pizza</span><span class="item-price">200</span></div>
+    <div class="menu-item"><span class="item-name">Mexican Paneer Pizza</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Tandoori Paneer Pizza</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Corn & Paneer Pizza</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Mad 4 Mushroom Pizza</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Barbecue Pizza</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Veg. Schezwan Pizza</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Paneer-Mushroom Pizza</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Relish Cheese Lava Pizza</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Tikka Pizza</span><span class="item-price">260</span></div>
+  </div>
+</section>
+<section class="menu-section pizza">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Large Pizza</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Large Veggie Delite Pizza</span><span class="item-price">340</span></div>
+    <div class="menu-item"><span class="item-name">Large Paneer / Mushroom Chilly Pizza</span><span class="item-price">440</span></div>
+    <div class="menu-item"><span class="item-name">Large Paneer King Pizza</span><span class="item-price">440</span></div>
+    <div class="menu-item"><span class="item-name">Large Butter Chicken Pizza</span><span class="item-price">460</span></div>
+    <div class="menu-item"><span class="item-name">Large Barbecue Chicken Pizza</span><span class="item-price">460</span></div>
+  </div>
+</section>
+<section class="menu-section">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Grilled Sandwich</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Veg. Cheese Grill Sandwich</span><span class="item-price">180</span></div>
+    <div class="menu-item"><span class="item-name">Brown Bread Grill Sandwich</span><span class="item-price">180</span></div>
+    <div class="menu-item"><span class="item-name">Brown Bread Paneer Grill Sandwich</span><span class="item-price">200</span></div>
+    <div class="menu-item"><span class="item-name">Mexican Paneer Grill Sandwich</span><span class="item-price">200</span></div>
+    <div class="menu-item"><span class="item-name">Mushroom Grill Sandwich</span><span class="item-price">200</span></div>
+    <div class="menu-item"><span class="item-name">Tandoori Paneer Grill Sandwich</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Veg Club Grill Sandwich</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Tikka Grill Sandwich</span><span class="item-price">260</span></div>
+  </div>
+</section>
+<section class="menu-section">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Round Pan Sandwich</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Mushroom Round Sandwich</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Round Sandwich</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Round Sandwich</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Mutton Keema Round Sandwich</span><span class="item-price">300</span></div>
+  </div>
+</section>
+<section class="menu-section">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Burgers</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Veg. Burger (No Cheese)</span><span class="item-price">100</span></div>
+    <div class="menu-item"><span class="item-name">Veg. Cheese Burger</span><span class="item-price">140</span></div>
+    <div class="menu-item"><span class="item-name">Veg. Double Cheese Burger</span><span class="item-price">150</span></div>
+    <div class="menu-item"><span class="item-name">Veg. Schezwan Cheese Burger</span><span class="item-price">160</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Cheese Burger</span><span class="item-price">170</span></div>
+  </div>
+</section>
+<section class="menu-section">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Panini</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Veg. Panini (No Paneer)</span><span class="item-price">180</span></div>
+    <div class="menu-item"><span class="item-name">Mexican Grill Panini</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Mush. Capsicum Panini</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Spicy Sweet Corn Panini</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Veg. Schezwan Panini</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Tandoori Paneer Panini</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Mushroom Panini</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Tikka Panini</span><span class="item-price">260</span></div>
+  </div>
+</section>
+<section class="menu-section">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Garlic Bread</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Plain Garlic Bread</span><span class="item-price">100</span></div>
+    <div class="menu-item"><span class="item-name">Cheese Garlic Bread</span><span class="item-price">160</span></div>
+    <div class="menu-item"><span class="item-name">Onion Chilli Cheese Garlic Bread</span><span class="item-price">160</span></div>
+    <div class="menu-item"><span class="item-name">Corn Chilli Cheese Garlic Bread</span><span class="item-price">160</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Garlic Bread</span><span class="item-price">180</span></div>
+    <div class="menu-item"><span class="item-name">Mushroom Garlic Bread</span><span class="item-price">180</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Toast Garlic Bread</span><span class="item-price">200</span></div>
+  </div>
+</section>
+<section class="menu-section">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Bun</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Bun Mushroom</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Bun Paneer</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Bun Chicken Bhuna</span><span class="item-price">300</span></div>
+    <div class="menu-item"><span class="item-name">Bun Mutton Kheema</span><span class="item-price">320</span></div>
+    <div class="menu-item"><span class="item-name">Extra Bun</span><span class="item-price">30</span></div>
+  </div>
+</section>
+<section class="menu-section">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Wraps</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Mushroom Wrap</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Wrap</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Wrap</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Mutton Kheema Wrap</span><span class="item-price">300</span></div>
+  </div>
+</section>
+<section class="menu-section">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Pasta</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Veg. White Pasta (In Alfredo Sauce)</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Veg. Red Pasta (In Arrabiata Sauce)</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Chicken White Pasta (In Alfredo Sauce)</span><span class="item-price">280</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Red Pasta (In Arrabiata Sauce)</span><span class="item-price">280</span></div>
+  </div>
+</section>
+<section class="menu-section">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Fun Fries</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">French Fries</span><span class="item-price">120</span></div>
+    <div class="menu-item"><span class="item-name">Peri Peri Fries</span><span class="item-price">150</span></div>
+    <div class="menu-item"><span class="item-name">Cheesy Fries</span><span class="item-price">200</span></div>
+    <div class="menu-item"><span class="item-name">Schezwan Crispy French Fries</span><span class="item-price">200</span></div>
+  </div>
+</section>
+<section class="menu-section rice">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Rice & Biryani</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Veg Fried Rice</span><span class="item-price">180</span></div>
+    <div class="menu-item"><span class="item-name">Schezwan Fried Rice</span><span class="item-price">200</span></div>
+    <div class="menu-item"><span class="item-name">Triple Fried Rice</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Veg Biryani</span><span class="item-price">220</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Fried Rice</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Schezwan Fried Rice</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Triple Chicken Fried Rice</span><span class="item-price">300</span></div>
+    <div class="menu-item"><span class="item-name">Egg Fried Rice</span><span class="item-price">210</span></div>
+    <div class="menu-item"><span class="item-name">Egg Schezwan Fried Rice</span><span class="item-price">230</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Fried Rice</span><span class="item-price">230</span></div>
+  </div>
+</section>
+<section class="menu-section noodles">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Noodles</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Veg Hakka Noodles</span><span class="item-price">180</span></div>
+    <div class="menu-item"><span class="item-name">Schezwan Noodles</span><span class="item-price">200</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Hakka Noodles</span><span class="item-price">230</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Hakka Noodles</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Schezwan Noodles</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Egg Hakka Noodles</span><span class="item-price">210</span></div>
+    <div class="menu-item"><span class="item-name">Egg Schezwan Noodles</span><span class="item-price">230</span></div>
+  </div>
+</section>
+<section class="menu-section maincourse">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Indian Main Course (Veg.)</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Dal Fry</span><span class="item-price">180</span></div>
+    <div class="menu-item"><span class="item-name">Dal Tadka</span><span class="item-price">200</span></div>
+    <div class="menu-item"><span class="item-name">Jeera Dal</span><span class="item-price">200</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Butter Masala</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Handi</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Paneer Tikka Masala</span><span class="item-price">260</span></div>
+    <div class="menu-item"><span class="item-name">Veg Kolhapuri</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Veg Jaipuri</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Veg Makhanwala</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Veg Handi</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Veg Kofta</span><span class="item-price">240</span></div>
+  </div>
+</section>
+<section class="menu-section maincourse">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Indian Main Course (Non-Veg.)</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Chicken Masala</span><span class="item-price">280</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Handi</span><span class="item-price">300</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Do Pyaza</span><span class="item-price">320</span></div>
+    <div class="menu-item"><span class="item-name">Chicken Kolhapuri</span><span class="item-price">320</span></div>
+    <div class="menu-item"><span class="item-name">Egg Curry</span><span class="item-price">240</span></div>
+    <div class="menu-item"><span class="item-name">Mutton Kheema</span><span class="item-price">350</span></div>
+    <div class="menu-item"><span class="item-name">Fish Curry</span><span class="item-price">350</span></div>
+    <div class="menu-item"><span class="item-name">Prawns Curry</span><span class="item-price">380</span></div>
+  </div>
+</section>
+<section class="menu-section tandoori">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Tandoori & Roti</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Tandoori Roti</span><span class="item-price">30</span></div>
+    <div class="menu-item"><span class="item-name">Butter Roti</span><span class="item-price">40</span></div>
+    <div class="menu-item"><span class="item-name">Naan</span><span class="item-price">50</span></div>
+    <div class="menu-item"><span class="item-name">Butter Naan</span><span class="item-price">60</span></div>
+    <div class="menu-item"><span class="item-name">Lachha Paratha</span><span class="item-price">70</span></div>
+    <div class="menu-item"><span class="item-name">Stuffed Kulcha</span><span class="item-price">80</span></div>
+    <div class="menu-item"><span class="item-name">Roomali Roti</span><span class="item-price">40</span></div>
+    <div class="menu-item"><span class="item-name">Missi Roti</span><span class="item-price">60</span></div>
+  </div>
+</section>
+<section class="menu-section dessert">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Desserts</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Gulab Jamun (2 Pcs)</span><span class="item-price">90</span></div>
+    <div class="menu-item"><span class="item-name">Ice Cream (Vanilla/Chocolate/Strawberry)</span><span class="item-price">70</span></div>
+    <div class="menu-item"><span class="item-name">Brownie with Ice Cream</span><span class="item-price">150</span></div>
+    <div class="menu-item"><span class="item-name">Fruit Salad with Ice Cream</span><span class="item-price">120</span></div>
+  </div>
+</section>
+<section class="menu-section beverages">
+  <div class="section-title"><span class="section-arrow">&#9654;</span>Beverages</div>
+  <div class="menu-list">
+    <div class="menu-item"><span class="item-name">Fresh Lime Soda</span><span class="item-price">70</span></div>
+    <div class="menu-item"><span class="item-name">Mineral Water</span><span class="item-price">40</span></div>
+    <div class="menu-item"><span class="item-name">Cold Drink (200 ml)</span><span class="item-price">40</span></div>
+    <div class="menu-item"><span class="item-name">Cold Drink (600 ml)</span><span class="item-price">60</span></div>
+    <div class="menu-item"><span class="item-name">Fresh Juice</span><span class="item-price">80</span></div>
+    <div class="menu-item"><span class="item-name">Buttermilk</span><span class="item-price">50</span></div>
+    <div class="menu-item"><span class="item-name">Tea</span><span class="item-price">30</span></div>
+    <div class="menu-item"><span class="item-name">Coffee</span><span class="item-price">40</span></div>
+  </div>
+</section>
+
+<!-- END FULL MENU -->
+
+  </div>
+  <div class="menu-footer">
+    <strong>* Govt. Taxes are not included in the price.</strong>
+  </div>
+  <script>
+    // Collapsible menu sections for mobile
+    document.querySelectorAll('.section-title').forEach(title => {
+      title.addEventListener('click', function() {
+        if(window.innerWidth < 701) {
+          this.parentElement.classList.toggle('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
